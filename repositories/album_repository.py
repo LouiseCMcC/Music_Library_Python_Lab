@@ -1,12 +1,11 @@
 from db.run_sql import run_sql
-from models import artist
 from models.album import Album
-from models.artist import Artist
-import artist_repository
+import repositories.artist_repository
 
 def save(album):
-    sql= 'INSERT INTO albums (title, genre, artist)VALUES(%s, %s, %s)RETURNING *'
-    values = [album.title, album.genre, album.artist]
+    # pdb.set_trace()
+    sql= 'INSERT INTO albums (title, genre, artist_id) VALUES (%s, %s, %s) RETURNING *'
+    values = [album.title, album.genre, album.artist.id]
     result = run_sql(sql, values)
     id = result[0]['id']
     album.id = id
@@ -43,7 +42,7 @@ def delete(id):
     run_sql(sql, values)
 
 def delete_all():
-    sql= 'DELETE FROM album'
+    sql= 'DELETE FROM albums'
     run_sql(sql)
 
 
